@@ -69,7 +69,7 @@ socket.on('file', function(_file, _id)
     {
         id = _id;
         file = _file;
-        img.src = './public/buffer/' + file
+        img.src = './public/data/' + file
     }
 }) 
 

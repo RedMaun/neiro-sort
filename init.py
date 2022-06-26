@@ -15,17 +15,9 @@ def config_load(config):
 
 cfg = config_load(config)
 
-data_folder = os.path.join(current_directory, r'{}'.format(cfg["data_folder"]))
-if not os.path.exists(data_folder):
-    os.makedirs(data_folder)
-
 sort_folder = os.path.join(current_directory, r'{}'.format(cfg["sort_folder"]))
 if not os.path.exists(sort_folder):
     os.makedirs(sort_folder)
-
-buffer_folder = os.path.join(current_directory, r'{}'.format(cfg["buffer_folder"]))
-if not os.path.exists(buffer_folder):
-    os.makedirs(buffer_folder)
 
 def init():
     print('Write your categories(item1, item2, item3):')

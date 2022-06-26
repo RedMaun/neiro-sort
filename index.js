@@ -12,8 +12,7 @@ let rawdata = fs.readFileSync('./public/config.json');
 let config = JSON.parse(rawdata);
 
 var names = [];
-data_folder = config.data_folder
-buffer_folder = config.buffer_folder
+data_folder = 'public/data'
 sort_folder = config.sort_folder
 
 fs.readdir(data_folder, (err, files) => {
@@ -22,7 +21,7 @@ fs.readdir(data_folder, (err, files) => {
     });
 });
 
-app.get('/',function(req,res) {
+app.get('/f4091876df6a5d39e6690b7395a95399',function(req,res) {
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -30,26 +29,17 @@ io.on('connection', async (socket) => {
     var current_file;
     socket.on('start', () => {
         current_file = random();
-        fs.rename(data_folder + '/' + current_file, buffer_folder + '/' + current_file, function (err) {
-            if (err) console.log(err)
-        })
         io.emit('file', current_file, socket.id);
     })
 
     socket.on('complete', (folder, file, id) => {
         if (socket.id == id)
         {
-            fs.rename(buffer_folder + '/' + file, sort_folder + '/' + folder + '/' + file, function (err) {
-                if (err) console.log(err)
-            })
             io.emit('again', id);
+            fs.rename(data_folder + '/' + file, sort_folder + '/' + folder + '/' + file, function (err) {
+                if (err) console.log(err)
+            })   
         }
-    })
-
-    socket.on('disconnect', () => {
-        fs.rename(buffer_folder + '/' + current_file, data_folder + '/' + current_file, function (err) {
-            if (err) console.log(err)
-        })
     })
 })
 
